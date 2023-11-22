@@ -1,0 +1,77 @@
+﻿@page "/adddonation"
+
+@inject DonationService donationService
+@inject NavigationManager NavManager
+
+<PageTitle>Add Donation</PageTitle>
+
+<h1>Add Donation</h1>
+
+<EditForm Model="@donation" OnValidSubmit="HandleValidSubmit">
+    @*<DataAnnotationsValidator />*@
+     <ValidationSummary /> 
+
+    <div class="form-group">
+        <label for="AccountNo">Account Number:</label>
+        <InputNumber id="AccountNo" class="form-control" @bind-Value="donation.AccountNo" />
+    </div>
+
+    <div class="form-group">
+        <label for="Amount">Amount:</label>
+        <InputNumber id="Amount" class="form-control" @bind-Value="donation.Amount" />
+    </div>
+
+    <div class="form-group">
+        <label for="TransactionTypeId">Transaction Type ID:</label>
+        <InputNumber id="TransactionTypeId" class="form-control" @bind-Value="donation.TransactionTypeId" />
+    </div>
+
+    <div class="form-group">
+        <label for="PaymentMethodId">Payment Method ID:</label>
+        <InputNumber id="PaymentMethodId" class="form-control" @bind-Value="donation.PaymentMethodId" />
+    </div>
+
+    <div class="form-group">
+        <label for="Notes">Notes:</label>
+        <InputText id="Notes" class="form-control" @bind-Value="donation.Notes" />
+    </div>
+
+    <div class="form-group">
+        <label for="Created">Created:</label>
+        <code>@donation.Created</code>
+    </div>
+
+    <div class="form-group">
+        <label for="Modified">Modified:</label>
+        <code>@donation.Modified</code>
+    </div>
+
+    <div class="form-group">
+        <label for="CreatedBy">Created By:</label>
+        <code>@donation.CreatedBy</code>
+    </div>
+
+    <div class="form-group">
+        <label for="ModifiedBy">Modified By:</label>
+        <code>@donation.ModifiedBy</code>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private Donation donation = new Donation();
+
+    private async Task HandleValidSubmit()
+    {
+        // Set Created, Modified, CreatedBy, and ModifiedBy
+        donation.Created = DateTime.Now;
+        donation.Modified = DateTime.Now;
+        donation.CreatedBy = "me";
+        donation.ModifiedBy = "me";
+        donation.Date = DateTime.Now;
+
+        await donationService.InsertDonationsAsync(donation);
+        NavManager.NavigateTo("/");
+    }
+}

@@ -1,0 +1,14 @@
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\bin\Debug\net7.0\DonationLibrary.deps.json
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\bin\Debug\net7.0\DonationLibrary.dll
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\bin\Debug\net7.0\DonationLibrary.pdb
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.csproj.AssemblyReference.cache
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.AssemblyInfoInputs.cache
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.AssemblyInfo.cs
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.csproj.CoreCompileInputs.cache
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.dll
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\refint\DonationLibrary.dll
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.pdb
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\ref\DonationLibrary.dll
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\bin\Debug\net7.0\DonationLibrary.runtimeconfig.json
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.genruntimeconfig.cache

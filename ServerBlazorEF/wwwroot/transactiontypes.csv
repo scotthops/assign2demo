@@ -1,0 +1,5 @@
+TransactionTypeId,Name,Description,Created,Modified,CreatedBy,ModifiedBy
+1,Donation,Donation for a cause,2023-01-01,2023-01-01,Admin,Admin
+2,Subscription,Monthly subscription payment,2023-01-02,2023-01-02,User1,User1
+3,Event,Event registration fee,2023-01-03,2023-01-03,User2,User2
+4,General,General donation,2023-01-04,2023-01-04,Admin,Admin

@@ -1,0 +1,93 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\ServerBlazorEF.bundle.scp.css",
+      "PackagePath": "staticwebassets\\ServerBlazorEF.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\accounts.csv",
+      "PackagePath": "staticwebassets\\accounts.csv"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\donations.csv",
+      "PackagePath": "staticwebassets\\donations.csv"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\paymentmethods.csv",
+      "PackagePath": "staticwebassets\\paymentmethods.csv"
+    },
+    {
+      "Id": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\wwwroot\\transactiontypes.csv",
+      "PackagePath": "staticwebassets\\transactiontypes.csv"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.ServerBlazorEF.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.ServerBlazorEF.props",
+      "PackagePath": "build\\ServerBlazorEF.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.ServerBlazorEF.props",
+      "PackagePath": "buildMultiTargeting\\ServerBlazorEF.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.ServerBlazorEF.props",
+      "PackagePath": "buildTransitive\\ServerBlazorEF.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,0 +1,5 @@
+PaymentMethodId,Name,Created,Modified,CreatedBy,ModifiedBy
+1,Credit Card,2023-01-01,2023-01-01,Admin,Admin
+2,PayPal,2023-01-02,2023-01-02,User1,User1
+3,Bank Transfer,2023-01-03,2023-01-03,User2,User2
+4,Cash,2023-01-04,2023-01-04,Admin,Admin
