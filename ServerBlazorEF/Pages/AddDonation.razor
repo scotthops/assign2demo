@@ -1,34 +1,77 @@
 ﻿@page "/adddonation"
-
+@using Microsoft.AspNetCore.Components.Authorization
 @inject DonationService donationService
+@inject AccountService accountService
+@inject PaymentService paymentService
+@inject TransTypeService transService
 @inject NavigationManager NavManager
-
+@inject AuthService AuthService
 <PageTitle>Add Donation</PageTitle>
 
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
 <h1>Add Donation</h1>
 
 <EditForm Model="@donation" OnValidSubmit="HandleValidSubmit">
-    @*<DataAnnotationsValidator />*@
-     <ValidationSummary /> 
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+@if(donation!=null){
+    <div class="form-group">
+        <label for="AccountNo">Account:</label>
+        
+        <select id="AccountNo" class="form-control" @bind="donation.AccountNo">
+            @if (accounts != null) {
+                foreach (var account in accounts)
+                {
+                    <option value="@account.AccountNo">@account.FirstName @account.LastName</option>
+                }
+            }
+        </select>
+        
+    </div>
+
+        <div class="form-group">
+            <label for="TransactionTypeId">Transaction Type:</label>
+            <select id="TransactionTypeId" class="form-control" @bind="donation.TransactionTypeId">
+                @if (transTypes != null)
+                {
+                    foreach (var transaction in transTypes)
+                    {
+                        <option value="@transaction.TransactionTypeId">@transaction.Name</option>
+                    }
+                }
+            </select>
+        </div>
 
     <div class="form-group">
-        <label for="AccountNo">Account Number:</label>
-        <InputNumber id="AccountNo" class="form-control" @bind-Value="donation.AccountNo" />
+        <label for="PaymentMethodId">Payment Method:</label>
+
+        <select id="PaymentMethodId" class="form-control" @bind="donation.PaymentMethodId">
+            @if (paymentMethods != null) {
+                foreach (var payment in paymentMethods)
+                {
+                <option value="@payment.PaymentMethodId">@payment.Name</option>
+                }
+            }
+        </select>
+        
     </div>
 
     <div class="form-group">
         <label for="Amount">Amount:</label>
-        <InputNumber id="Amount" class="form-control" @bind-Value="donation.Amount" />
+        <InputNumber id="Amount" class="form-control" @bind-Value="donation.Amount" step="0.01" />
     </div>
 
     <div class="form-group">
-        <label for="TransactionTypeId">Transaction Type ID:</label>
-        <InputNumber id="TransactionTypeId" class="form-control" @bind-Value="donation.TransactionTypeId" />
-    </div>
-
-    <div class="form-group">
-        <label for="PaymentMethodId">Payment Method ID:</label>
-        <InputNumber id="PaymentMethodId" class="form-control" @bind-Value="donation.PaymentMethodId" />
+        <label for="Date">Date:</label>
+        <InputDate id="Date" class="form-control" @bind-Value="donation.Date" />
     </div>
 
     <div class="form-group">
@@ -36,42 +79,74 @@
         <InputText id="Notes" class="form-control" @bind-Value="donation.Notes" />
     </div>
 
-    <div class="form-group">
-        <label for="Created">Created:</label>
-        <code>@donation.Created</code>
-    </div>
+        <div class="form-group">
+            <label for="Created">Created:</label>
+            <code>@(donation.Created.HasValue ? donation.Created.Value.ToString() : "")</code>
+        </div>
 
-    <div class="form-group">
-        <label for="Modified">Modified:</label>
-        <code>@donation.Modified</code>
-    </div>
+        <div class="form-group">
+            <label for="Modified">Modified:</label>
+            <code>@(donation.Modified.HasValue ? donation.Modified.Value.ToString() : "")</code>
+        </div>
 
-    <div class="form-group">
-        <label for="CreatedBy">Created By:</label>
-        <code>@donation.CreatedBy</code>
-    </div>
+        <div class="form-group">
+            <label for="CreatedBy">Created By:</label>
+            <code>@(donation.CreatedBy ?? "")</code>
+        </div>
 
-    <div class="form-group">
-        <label for="ModifiedBy">Modified By:</label>
-        <code>@donation.ModifiedBy</code>
-    </div>
-
+        <div class="form-group">
+            <label for="ModifiedBy">Modified By:</label>
+            <code>@(donation.ModifiedBy ?? "")</code>
+        </div>
+}
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
 @code {
-    private Donation donation = new Donation();
+    private Donation? donation = new Donation();
+    private List<Account>? accounts = new List<Account>();
+    private List<PaymentMethod>? paymentMethods = new List<PaymentMethod>();
+    private List<TransactionType>? transTypes = new List<TransactionType>();
+    private bool isAdmin = false;
+    private string? username;
 
-    private async Task HandleValidSubmit()
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            
+            isAdmin = authState.User.IsInRole("Admin");
+            
+            username = authState.User.Identity?.Name;
+
+            transTypes = await transService.GetTransactionTypesAsync();
+            accounts = await accountService.GetAccountsAsync();
+            paymentMethods = await paymentService.GetPaymentMethodsAsync();
+
+            // Set default values for dropdowns
+            if(donation!=null){
+            donation.TransactionTypeId = transTypes.FirstOrDefault()?.TransactionTypeId;
+            donation.AccountNo = accounts.FirstOrDefault()?.AccountNo;
+            donation.PaymentMethodId = paymentMethods.FirstOrDefault()?.PaymentMethodId;
+            }
+        } else {
+            // User is not authenticated, handle it as needed
+            NavManager.NavigateTo("/login");
+
+        }
+    }
+        private async Task HandleValidSubmit()
     {
         // Set Created, Modified, CreatedBy, and ModifiedBy
-        donation.Created = DateTime.Now;
-        donation.Modified = DateTime.Now;
-        donation.CreatedBy = "me";
-        donation.ModifiedBy = "me";
-        donation.Date = DateTime.Now;
+        if(donation!=null){
+            donation.Created = DateTime.Now;
+            donation.Modified = DateTime.Now;
+            donation.CreatedBy = username;
+            donation.ModifiedBy = username;
+            await donationService.InsertDonationsAsync(donation);
+        }
 
-        await donationService.InsertDonationsAsync(donation);
-        NavManager.NavigateTo("/");
+
+
+        NavManager.NavigateTo("/donations");
     }
 }

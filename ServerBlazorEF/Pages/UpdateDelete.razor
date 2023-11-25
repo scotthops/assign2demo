@@ -1,18 +1,168 @@
-﻿@page "/counter"
+﻿@page "/updel/{id}/{mode}"
 
-<PageTitle>Counter</PageTitle>
+@inject DonationService donationService
+@inject AccountService accountService
+@inject PaymentService paymentService
+@inject TransTypeService transService
+@inject NavigationManager NavManager
+@inject AuthService AuthService
 
-<h1>Counter</h1>
+<PageTitle>Update/Delete Donation</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+ @if (donation != null && Mode == "edit") // Update
+{
+    <EditForm Model="@donation" OnValidSubmit="HandleValidSubmit">
+        <ValidationSummary /> 
 
-<p role="status">Current count: @currentCount</p>
+        <div class="form-group">
+            <label for="AccountNo">Account:</label>
+            <select id="AccountNo" class="form-control" @bind="donation.AccountNo">
+                @if (accounts != null)
+                {
+                    foreach (var account in accounts)
+                    {
+                        <option value="@account.AccountNo">@account.FirstName @account.LastName</option>
+                    }
+                }
+            </select>
+        </div>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+        <div class="form-group">
+            <label for="Amount">Last Amount:</label>
+            <InputNumber id="Amount" class="form-control" @bind-Value="donation.Amount" />
+        </div>
 
-@code {
-    private int currentCount = 0;
+        <div class="form-group">
+            <label for="Date">Last Date:</label>
+            <InputDate id="Date" class="form-control" @bind-Value="donation.Date" />
+        </div>
 
-    private void IncrementCount()
-    {
-        currentCount++;
+
+        <div class="form-group">
+            <label for="TransactionTypeId">Transaction Type:</label>
+            <select id="TransactionTypeId" class="form-control" @bind="donation.TransactionTypeId">
+                @if (transTypes != null)
+                {
+                    foreach (var transaction in transTypes)
+                    {
+                        <option value="@transaction.TransactionTypeId">@transaction.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="PaymentMethodId">PaymentMethodId:</label>
+            <select id="PaymentMethodId" class="form-control" @bind="donation.PaymentMethodId">
+                @if (payments != null)
+                {
+                    foreach (var payment in payments)
+                    {
+                        <option value="@payment.PaymentMethodId">@payment.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </EditForm>
+
+    @code {
+        private async Task HandleValidSubmit()
+        {
+            if (donation != null)
+            {
+                 // Set the properties that should not be updated
+                donation.Modified = DateTime.Now;
+                donation.ModifiedBy = "admin"; // Replace with the appropriate value
+                await donationService.UpdateDonationsAsync(donation.TransId ?? 0, donation);
+            }
+            NavManager.NavigateTo("/donations");
+        }
     }
 }
+else if (donation != null && Mode == "del")
+{ // Delete
+    // display student details
+    <fieldset>
+        <legend>Donation Information</legend>
+        <p>Account: @accountName</p>
+        <p>Amount: $@donation.Amount CAD</p>
+        <p>Transaction Type: @transTypeName</p>
+        <p>Payment Method: @paymentMethodName</p>
+    </fieldset>
+    <p>Are you sure?</p>
+    <button type="button" class="btn btn-danger" @onclick="HandleDeleteDonation">Delete</button>
+    @code {
+    private async Task HandleDeleteDonation()
+    {
+        await donationService.DeleteDonationsAsync(donation!.TransId ?? 0);
+        NavManager.NavigateTo("/");
+    }
+}
+}
+else
+{
+    <p>Donation with ID == @Id not found</p>
+} 
+
+@code {
+    private string? accountName;
+    private string? transTypeName;
+    private string? paymentMethodName;
+    [Parameter]
+    public string? Id { get; set; }
+    [Parameter]
+    public string? Mode { get; set; }
+    public bool isAdmin { get; set; }
+    private Donation? donation = new Donation();
+    private List<Account>? accounts = new List<Account>();
+    private List<PaymentMethod>? payments = new List<PaymentMethod>();
+    private List<TransactionType>? transTypes = new List<TransactionType>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        int intId = Convert.ToInt32(Id);
+        donation = await donationService.GetDonationsIdAsync(intId);
+        accounts = await accountService.GetAccountsAsync();
+        payments = await paymentService.GetPaymentMethodsAsync();
+        transTypes = await transService.GetTransactionTypesAsync();
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated
+            // Check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavManager.NavigateTo("/login");
+            }
+            // Fetch associated names
+            var account = accounts?.FirstOrDefault(a => a.AccountNo == donation?.AccountNo);
+            accountName = account?.FirstName + " " + account?.LastName;
+
+            var transType = transTypes?.FirstOrDefault(t => t.TransactionTypeId == donation?.TransactionTypeId);
+            transTypeName = transType?.Name;
+
+            var paymentMethod = payments?.FirstOrDefault(p => p.PaymentMethodId == donation?.PaymentMethodId);
+            paymentMethodName = paymentMethod?.Name;
+        } else {
+            // User is not authenticated
+            NavManager.NavigateTo("/login");
+        }
+    }
+    } 
+<style>
+    fieldset {
+        border: 2px solid #000;
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+</style>

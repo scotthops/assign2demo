@@ -12,3 +12,4 @@ C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Deb
 C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\ref\DonationLibrary.dll
 C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\bin\Debug\net7.0\DonationLibrary.runtimeconfig.json
 C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.genruntimeconfig.cache
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\DonationLibrary\obj\Debug\net7.0\DonationLibrary.sourcelink.json

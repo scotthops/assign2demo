@@ -1,0 +1,86 @@
+@page "/addtranstype"
+@inject AuthService AuthService
+@inject TransTypeService transTypeService
+@inject NavigationManager NavManager
+
+<PageTitle>Add Transaction Type</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+<h1>Add Transaction Type</h1>
+
+<EditForm Model="@transType" OnValidSubmit="HandleValidSubmit">
+    <ValidationSummary /> 
+
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <InputText id="Name" class="form-control" @bind-Value="transType.Name" />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description:</label>
+        <InputText id="Description" class="form-control" @bind-Value="transType.Description" />
+    </div>
+
+    <div class="form-group">
+        <label for="Created">Created:</label>
+        <code>@DateTime.Now</code>
+    </div>
+
+    <div class="form-group">
+        <label for="Modified">Modified:</label>
+        <code>@DateTime.Now</code>
+    </div>
+
+    <div class="form-group">
+        <label for="CreatedBy">Created By:</label>
+        <code>@username</code>
+    </div>
+
+    <div class="form-group">
+        <label for="ModifiedBy">Modified By:</label>
+        <code>@username</code>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private TransactionType transType = new TransactionType();
+    private string username = "";
+    private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated, continue with your logic
+            
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin){
+                NavManager.NavigateTo("/login");
+            }
+            username = authState.User.Identity?.Name ?? "";
+        } else {
+            // User is not authenticated, handle it as needed
+            NavManager.NavigateTo("/login");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        // Set Created, Modified, CreatedBy, and ModifiedBy
+        transType.Created = DateTime.Now;
+        transType.Modified = DateTime.Now;
+        transType.CreatedBy = username;
+        transType.ModifiedBy = username;
+
+        await transTypeService.InsertTransactionTypeAsync(transType);
+        NavManager.NavigateTo("/transtypes");
+    }
+}

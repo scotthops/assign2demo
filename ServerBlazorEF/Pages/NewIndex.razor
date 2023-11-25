@@ -1,0 +1,39 @@
+@page "/"
+@using ServerBlazorEF.Data
+@using Microsoft.AspNetCore.Components.Authorization
+@inject DonationService donationService
+@inject NavigationManager NavigationManager
+@inject AuthService AuthService
+
+
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+
+
+<h1>Welcome to a new world of Donation Organization</h1>
+<p>Please click a link to get started! We suggest the Donations page if you're new!</p>
+@code {
+    private bool isAdmin = false;
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated, continue with your logic
+    
+            // Check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavigationManager.NavigateTo("/login");
+            }
+        } else {
+            // User is not authenticated, handle it as needed
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}

@@ -1,19 +1,49 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
 <PageTitle>ServerBlazorEF</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+
+
+
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <a href="">Home</a>
+            <a href="donations">Donations</a>
+            <a href="adddonation">Add Donation</a>
+            <button @onclick="Logout">Logout</button>
+            @* <a href="contacts">Contacts</a>
+            <a href="paymentmethods">Payment Methods</a>
+            <a href="transtypes">Transaction Types</a>
+            <a href="taxreceipt">Tax Receipt</a> *@
         </div>
 
         <article class="content px-4">
-            @Body
+
+                @Body
+
         </article>
+        <footer class = "footer">
+            Scott Hopkins A01049600
+        </footer>
     </main>
 </div>
+
+<style>
+    /* Add your styles for the footer here */
+    .footer {
+        background-color: #f8f9fa;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+@code{
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/", forceLoad: true);
+    }
+}
+

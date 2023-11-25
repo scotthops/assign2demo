@@ -1,0 +1,61 @@
+@page "/transtypes"
+@using ServerBlazorEF.Data
+@inject TransTypeService transTypeService
+@inject NavigationManager NavigationManager
+@inject AuthService AuthService
+
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+
+<h1>Transaction Types</h1>
+<p>Missing a transaction type? <a href="/addtranstype" class="button">Add one here.</a></p>
+@if (transTypes == null) {
+    <p><em>Loading...</em></p>
+}
+else {
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in transTypes) {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td><a class="btn btn-success btn-sm" href="/updeltrans/@item.TransactionTypeId/edit">edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="/updeltrans/@item.TransactionTypeId/del">del</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<TransactionType>? transTypes;
+    private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        transTypes = await transTypeService.GetTransactionTypesAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavigationManager.NavigateTo("/login");
+            }
+        }
+        else {
+            // User is not authenticated, handle it as needed
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}

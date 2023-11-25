@@ -1,0 +1,159 @@
+@page "/taxreceipt"
+@inject AccountService accountService
+@inject DonationService donationService
+@inject PaymentService paymentMethodService
+@inject TransTypeService transactionService
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+@if (isAdmin)
+{
+    <div class="top-row-admin">
+        <p style="font-weight: bold; text-align: left;">Admin:</p>
+        <p><a href="/contacts">Contacts</a></p>
+        <p><a href="/paymentmethods">Payment Methods</a></p>
+        <p><a href="/transtypes">Transaction Types</a></p>
+        <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+<h1>Tax Receipt Generator</h1>
+
+<div class="form-group">
+    <label for="selectedAccount">Select Account:</label>
+    <select id="selectedAccount" class="form-control" @onchange="HandleAccountSelectionChange">
+
+        <option value="">-- Select an Account --</option>
+        @if (accounts != null)
+        {
+            foreach (var account in accounts)
+            {
+                <option value="@account.AccountNo">@account.FirstName @account.LastName</option>
+            }
+        }
+    </select>
+</div>
+<br>
+<br>
+@if (selectedAccountId.HasValue)
+{
+
+    <h4>Current year (@DateTime.Now.Year) tax receipt for @selectedAccountName</h4>
+    <h4>@address</h4>
+    <p>@email</p>
+
+    <ul class="receipt">
+        @if (donations != null)
+        {
+            foreach (var donation in donations)
+            {
+                string? paymentMethodName = null;
+                string? transName = null;
+                if (paymentMapping != null && donation.PaymentMethodId.HasValue && paymentMapping.ContainsKey(donation.PaymentMethodId.Value))
+                {
+                    paymentMethodName = paymentMapping[donation.PaymentMethodId.Value];
+                }
+                if (transMapping != null && donation.TransactionTypeId.HasValue && transMapping.ContainsKey(donation.TransactionTypeId.Value))
+                {
+                    transName = transMapping[donation.TransactionTypeId.Value];
+                }
+                <li class="receipt-item">
+                    <label>Date:</label> @donation.Date<br />
+                    <label>Amount:</label> $@donation.Amount CAD<br />
+                    <label>Payment Method:</label> @paymentMethodName<br />
+                    <label>Transaction Type:</label> @transName
+                </li>
+            }
+        }
+    </ul>
+}
+else
+{
+    <p>Please select an account to generate a tax receipt.</p>
+}
+
+@code {
+    private List<Account>? accounts;
+    private int? selectedAccountId;
+    private string? selectedAccountName;
+    private string? address;
+    private string? email;
+    private bool isAdmin = false;
+    private List<Donation>? donations;
+    private Dictionary<int, string>? paymentMapping;
+    private Dictionary<int, string>? transMapping;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDonations();
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false)
+        {
+            // User is authenticated
+            // Check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if (!isAdmin)
+            {
+                NavigationManager.NavigateTo("/login");
+            }
+        }
+        else
+        {
+            // User is not authenticated
+            NavigationManager.NavigateTo("/login");
+        }
+
+        accounts = await accountService.GetAccountsAsync();
+        paymentMapping = await paymentMethodService.GetPaymentMethodNamesMappingAsync();
+        transMapping = await transactionService.GetTransNamesMappingAsync();
+        
+    }
+
+    private async Task LoadDonations()
+    {
+        if (selectedAccountId.HasValue)
+        {
+            var selectedAccount = accounts?.FirstOrDefault(a => a.AccountNo == selectedAccountId);
+            if (selectedAccount == null)
+            {
+                return;
+            }
+            string fName = selectedAccount?.FirstName ?? "";
+            string lName = selectedAccount?.LastName ?? "";
+            string postalCode = selectedAccount?.PostalCode ?? "";
+            email = selectedAccount?.Email ?? "";
+            string street = selectedAccount?.Street ?? "";
+            string city = selectedAccount?.City ?? "";
+            string country = selectedAccount?.Country ?? "";
+
+            //Method maybe named poorly, but only returns donations for the current year
+            donations = await donationService.GetDonationsByAccountAsync(selectedAccountId.Value);
+            selectedAccountName = fName + " " + lName;
+            address = street + ", " + city + ", " + country + ", " + postalCode;
+        }
+    }
+    private async Task HandleAccountSelectionChange(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var accountId))
+        {
+            selectedAccountId = accountId;
+            await LoadDonations();
+            StateHasChanged(); // Force re-render to update the UI
+        }
+    }
+}
+    <style>
+        .receipt {
+            list-style: none;
+            padding: 0;
+        }
+
+        .receipt-item {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .receipt-item label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    </style>

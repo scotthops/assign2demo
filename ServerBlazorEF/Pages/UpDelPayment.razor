@@ -1,0 +1,107 @@
+@page "/updelpayment/{id}/{mode}"
+@inject AuthService AuthService
+@inject PaymentService paymentService
+@inject NavigationManager NavManager
+
+<style>
+    fieldset {
+        border: 2px solid #000;
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<PageTitle>Update/Delete Payment Method</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+@if (paymentMethod != null && Mode == "edit") // Update
+{
+    <EditForm Model="@paymentMethod" OnValidSubmit="HandleValidSubmit">
+        @* <DataAnnotationsValidator />
+        <ValidationSummary /> *@
+
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <InputText id="Name" class="form-control" @bind-Value="paymentMethod.Name" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </EditForm>
+
+    @code {
+        private async Task HandleValidSubmit()
+        {
+            if (paymentMethod != null)
+            {
+                paymentMethod.Modified = DateTime.Now;
+                paymentMethod.ModifiedBy = debug;
+
+                await paymentService.UpdatePaymentMethodAsync(paymentMethod.PaymentMethodId, paymentMethod);
+            }
+            NavManager.NavigateTo("/paymentmethods");
+        }
+    }
+}
+else if (paymentMethod != null && Mode == "del")
+{ // Delete
+    // display payment method details
+    <fieldset>
+        <legend>Payment Method Information</legend>
+        <p>Deleting Payment Method: @paymentMethod.Name</p>
+    </fieldset>
+    <p>Are you sure?</p>
+    <button type="button" class="btn btn-danger" @onclick="HandleDeletePaymentMethod">Delete</button>
+    @code {
+        private async Task HandleDeletePaymentMethod()
+        {
+            await paymentService.DeletePaymentMethodAsync(paymentMethod!.PaymentMethodId);
+            NavManager.NavigateTo("/paymentmethods");
+        }
+    }
+}
+else
+{
+    <p>Payment Method with ID == @Id not found</p>
+}
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    [Parameter]
+    public string? Mode { get; set; }
+    private PaymentMethod? paymentMethod = new PaymentMethod();
+    private string debug = "";
+    private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated
+            
+
+            var username = authState.User.Identity?.Name;
+            debug = username ?? "no username";
+            // Should check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavManager.NavigateTo("/login");
+            }
+
+        } else {
+            // User is not authenticated
+            NavManager.NavigateTo("/login");
+            debug = "not authenticated";
+
+        }
+        int intId = Convert.ToInt32(Id);
+        paymentMethod = await paymentService.GetPaymentMethodByIdAsync(intId);
+    }
+}

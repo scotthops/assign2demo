@@ -1,0 +1,86 @@
+@page "/addpayment"
+@inject AuthService AuthService
+@inject PaymentService paymentService
+@inject NavigationManager NavManager
+
+<PageTitle>Add Payment Method</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+<h1>Add Payment Method</h1>
+
+<EditForm Model="@paymentMethod" OnValidSubmit="HandleValidSubmit">
+    @*<DataAnnotationsValidator />*@
+    <ValidationSummary /> 
+
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        @if(paymentMethod != null){
+            <InputText id="Name" class="form-control" @bind-Value="paymentMethod.Name" />
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="Created">Created:</label>
+        <code>@DateTime.Now</code>
+    </div>
+
+    <div class="form-group">
+        <label for="Modified">Modified:</label>
+        <code>@DateTime.Now</code>
+    </div>
+
+    <div class="form-group">
+        <label for="CreatedBy">Created By:</label>
+        <code>@username</code>
+    </div>
+
+    <div class="form-group">
+        <label for="ModifiedBy">Modified By:</label>
+        <code>@username</code>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private PaymentMethod? paymentMethod = new PaymentMethod();
+    private string? username = "";
+    private bool isAdmin = false;
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated, continue with your logic
+            
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavManager.NavigateTo("/login");
+            }
+            username = authState.User.Identity?.Name;
+        } else {
+            // User is not authenticated, handle it as needed
+            NavManager.NavigateTo("/login");
+
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        // Set Created, Modified, CreatedBy, and ModifiedBy
+        if(paymentMethod!=null) {
+            paymentMethod.Created = DateTime.Now;
+            paymentMethod.Modified = DateTime.Now;
+            paymentMethod.CreatedBy = username;
+            paymentMethod.ModifiedBy = username;
+            await paymentService.InsertPaymentMethodAsync(paymentMethod);
+        }
+            
+            NavManager.NavigateTo("/paymentmethods");
+    }
+}

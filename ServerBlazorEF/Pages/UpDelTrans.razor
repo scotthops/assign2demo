@@ -1,0 +1,111 @@
+@page "/updeltrans/{id}/{mode}"
+@inject AuthService AuthService
+@inject TransTypeService transTypeService
+@inject NavigationManager NavManager
+
+<style>
+    fieldset {
+        border: 2px solid #000;
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<PageTitle>Update/Delete Transaction Type</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+@if (transType != null && Mode == "edit") // Update
+{
+    <p>Update Transaction Type with ID == @Id</p>
+    <EditForm Model="@transType" OnValidSubmit="HandleValidSubmit">
+        @* <DataAnnotationsValidator />
+        <ValidationSummary /> *@
+
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <InputText id="Name" class="form-control" @bind-Value="transType.Name" />
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description:</label>
+            <InputText id="Description" class="form-control" @bind-Value="transType.Description" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </EditForm>
+
+    @code {
+        private async Task HandleValidSubmit()
+        {
+            if (transType != null)
+            {
+                transType.Modified = DateTime.Now;
+                transType.ModifiedBy = debug;
+
+                await transTypeService.UpdateTransactionTypeAsync(transType.TransactionTypeId, transType);
+            }
+            NavManager.NavigateTo("/transtypes");
+        }
+    }
+}
+else if (transType != null && Mode == "del")
+{ // Delete
+    // display transaction type details
+    <fieldset>
+        <legend>Transaction Type Information</legend>
+        <p>Deleting Transaction: @transType.Name</p>
+        <p>Description: @transType.Description</p>
+    </fieldset>
+    <p>Are you sure?</p>
+    <button type="button" class="btn btn-danger" @onclick="HandleDeleteTransType">Delete</button>
+    @code {
+        private async Task HandleDeleteTransType()
+        {
+            await transTypeService.DeleteTransactionTypeAsync(transType!.TransactionTypeId);
+            NavManager.NavigateTo("/transtypes");
+        }
+    }
+}
+else
+{
+    <p>Transaction Type with ID == @Id not found</p>
+}
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    [Parameter]
+    public string? Mode { get; set; }
+    private TransactionType? transType = new TransactionType();
+    private string debug = "";
+    private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated
+            
+            // Should check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavManager.NavigateTo("/login");
+            }
+            var username = authState.User.Identity?.Name;
+            debug = username ?? "no username";
+        } else {
+            // User is not authenticated
+            NavManager.NavigateTo("/login");
+            debug = "not authenticated";
+        }
+        int intId = Convert.ToInt32(Id);
+        transType = await transTypeService.GetTransactionTypeByIdAsync(intId);
+    }
+}

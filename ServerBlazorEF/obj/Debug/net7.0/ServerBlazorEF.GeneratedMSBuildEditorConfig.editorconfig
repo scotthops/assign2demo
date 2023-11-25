@@ -22,16 +22,68 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/AddContact.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkQ29udGFjdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/AddDonation.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkRG9uYXRpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/AddPayment.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkUGF5bWVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/AddTransType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkVHJhbnNUeXBlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/Contacts.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/Donations.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRG9uYXRpb25zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/NewIndex.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3SW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/Payments.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGF5bWVudHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/TaxReceipt.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGF4UmVjZWlwdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/TransTypes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhbnNUeXBlcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/UpdateDelete.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBkYXRlRGVsZXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/UpDelAccount.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBEZWxBY2NvdW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/UpDelPayment.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBEZWxQYXltZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Pages/UpDelTrans.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBEZWxUcmFucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Shared/NoMenuLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5vTWVudUxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/scott/Desktop/NOVEMBER/ServerSideBlazorSolution/ServerBlazorEF/Shared/SurveyPrompt.razor]

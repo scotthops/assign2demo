@@ -14,6 +14,24 @@ public class DonationService {
   public async Task<Donation?> GetDonationsIdAsync(int id) {
     return await _context.Donations.FindAsync(id) ?? null;
   }
+public async Task<List<Donation>> GetDonationsByAccountAsync(int accountNo)
+{
+  int currentYear = DateTime.Now.Year;
+
+    return await _context.Donations
+        .Where(d => d.AccountNo == accountNo && d.Date.HasValue && d.Date.Value.Year == currentYear)
+        .Select(d => new Donation
+        {
+            TransId = d.TransId,
+            Date = d.Date,
+            AccountNo = d.AccountNo,
+            TransactionTypeId = d.TransactionTypeId,
+            Amount = d.Amount,
+            PaymentMethodId = d.PaymentMethodId
+        })
+        .ToListAsync();
+}
+
 
   public async Task<Donation?> InsertDonationsAsync(Donation donation) {
     _context.Donations.Add(donation);

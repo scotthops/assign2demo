@@ -1,0 +1,73 @@
+﻿@page "/donations"
+@using ServerBlazorEF.Data
+@using Microsoft.AspNetCore.Components.Authorization
+@inject DonationService donationService
+@inject NavigationManager NavigationManager
+@inject AccountService accountService
+@inject AuthService AuthService
+<PageTitle>Donations</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+<h1>Donations</h1>
+
+@if (donations == null) {
+  <p><em>Loading...</em></p>
+} else {
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th>Name</th>
+
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in donations)
+      {
+                var account = accounts?.FirstOrDefault(a => a.AccountNo == item.AccountNo);
+
+                <tr>
+                    <td>@(account?.FirstName ?? "") @(account?.LastName ?? "")</td>
+                    <td>$@item.Amount CAD</td>
+                    <td>@item.Date</td>
+                    <td><a class="btn btn-success btn-sm" href="/updel/@item.TransId/edit">edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="/updel/@item.TransId/del">del</a></td>
+                </tr>
+        }
+    </tbody>
+  </table>
+}
+
+
+@code {
+  List<Donation>? donations;
+  private List<Account>? accounts;
+  private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        donations = await donationService.GetDonationsAsync();
+        accounts = await accountService.GetAccountsAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated, continue with your logic
+            // Check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavigationManager.NavigateTo("/login");
+            }
+
+        } else {
+            // User is not authenticated, handle it as needed
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+
+}

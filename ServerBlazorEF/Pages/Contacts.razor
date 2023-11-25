@@ -1,0 +1,70 @@
+@page "/contacts"
+@using ServerBlazorEF.Data
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AccountService accountService
+@inject NavigationManager NavigationManager
+@inject AuthService AuthService
+<PageTitle>Contacts</PageTitle>
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold; text-align: left;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+<h1>Contacts</h1>
+<p>Missing a contact? <a href="/addaccount" class="button">Add one here.</a></p>
+@if (accounts == null) {
+  <p><em>Loading...</em></p>
+} else {
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Modified</th>
+        <th>ModifiedBy</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in accounts)
+      {
+        <tr>
+          <td>@item.AccountNo</td>
+          <td>@item.FirstName</td>
+          <td>@item.LastName</td>
+          <td>@item.Modified</td>
+          <td>@item.ModifiedBy</td>
+          <td><a class="btn btn-success btn-sm" href="/updelaccount/@item.AccountNo/edit">edit</a></td>
+          <td><a class="btn btn-danger btn-sm" href="/updelaccount/@item.AccountNo/del">del</a></td>
+        </tr>
+        }
+    </tbody>
+  </table>
+}
+
+
+@code {
+  List<Account>? accounts;
+  private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        accounts = await accountService.GetAccountsAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            // User is authenticated
+            // Check if the user has the 'Admin' role
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavigationManager.NavigateTo("/login");
+            }
+        } else {
+            // User is not authenticated
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+
+}

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MLfyoFUc+s742ZusjgNpSGm5/js68MdlAqRMqsoahh0=",
+  "Hash": "lphIzKvVANpwZzjmDEASkk00UKQzTsDCdBjhVvnRKHM=",
   "Source": "ServerBlazorEF",
   "BasePath": "_content/ServerBlazorEF",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\scott\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.0\\staticwebassets\\AuthenticationService.js",
+      "SourceId": "Microsoft.AspNetCore.Components.WebAssembly.Authentication",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\scott\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.0\\staticwebassets\\",
+      "BasePath": "_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication",
+      "RelativePath": "AuthenticationService.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\scott\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.0\\staticwebassets\\AuthenticationService.js"
+    },
     {
       "Identity": "C:\\Users\\scott\\Desktop\\NOVEMBER\\ServerSideBlazorSolution\\ServerBlazorEF\\obj\\Debug\\net7.0\\scopedcss\\bundle\\ServerBlazorEF.styles.css",
       "SourceId": "ServerBlazorEF",

@@ -1,0 +1,85 @@
+<!-- Login.razor -->
+@page "/login"
+@layout NoMenuLayout
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+<PageTitle>Login</PageTitle>
+
+<h3>Welcome to Scott's Donation Tracker</h3>
+<p>You are not currently logged in, please provide your username and password.</p>
+
+<AuthorizeView>
+    <Authorized>
+        <p>You are already logged in.</p>
+    </Authorized>
+    <NotAuthorized>
+        <div class="login-container">
+            <label for="username">Username:</label>
+            <input id="username" @bind="username" />
+            <label for="password">Password :</label>
+            <input id="password" type="password" @bind="password" />
+            <div>
+            <button @onclick="LoggingIn">Login</button>
+            </div>
+            
+            <!-- Display error message -->
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <p class="error-message">@ErrorMessage</p>
+            }
+
+            <p>If you run into any issues, please <a href="https://www.google.ca">use this link</a> or contact Mr. Medhat Elmasry at his home.</p>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private string? username;
+    private string? password;
+    private string? ErrorMessage;
+
+    private void LoggingIn()
+    {
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            ErrorMessage = "Please enter username and password.";
+            return;
+        }
+        var isAuthenticated = AuthService.Login(username, password);
+
+        if (isAuthenticated)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            // Handle authentication failure
+            ErrorMessage = "Authentication failed. Please check your credentials.";
+        }
+    }
+}
+
+<style>
+    body {
+        background-color: #f0f0f0; /* Light grey background color */
+        font-family: Arial, sans-serif; /* Set a default font */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .login-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff; /* White background color for the login container */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
+    }
+
+    .error-message {
+        color: red;
+    }
+</style>

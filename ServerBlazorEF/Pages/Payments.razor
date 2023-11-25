@@ -1,0 +1,61 @@
+@page "/paymentmethods"
+@using ServerBlazorEF.Data
+@inject PaymentService paymentService
+@inject NavigationManager NavigationManager
+@inject AuthService AuthService
+@if (isAdmin) {
+    <div class="top-row-admin">
+    <p style="font-weight: bold;">Admin:</p>
+    <p><a href="/contacts">Contacts</a></p>
+    <p><a href="/paymentmethods">Payment Methods</a></p>
+    <p><a href="/transtypes">Transaction Types</a></p>
+    <p><a href="/taxreceipt">Tax Receipts</a></p>
+    </div>
+}
+<h1>Payment Methods</h1>
+<p>Missing a payment method? <a href="/addpayment" class="button">Add one here.</a></p>
+@if (paymentMethods == null) {
+    <p><em>Loading...</em></p>
+}
+else {
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in paymentMethods) {
+                <tr>
+                    <td>@item.PaymentMethodId</td>
+                    <td>@item.Name</td>
+                    <td><a class="btn btn-success btn-sm" href="/updelpayment/@item.PaymentMethodId/edit">edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="/updelpayment/@item.PaymentMethodId/del">del</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<PaymentMethod>? paymentMethods;
+    private bool isAdmin = false;
+
+    protected override async Task OnInitializedAsync() {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        paymentMethods = await paymentService.GetPaymentMethodsAsync();
+        if (authState.User.Identity?.IsAuthenticated ?? false) {
+            //Check for admin
+            isAdmin = authState.User.IsInRole("Admin");
+            if(!isAdmin) {
+                NavigationManager.NavigateTo("/login");
+            }
+        }
+        else {
+            // User is not authenticated, handle it as needed
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+
+}

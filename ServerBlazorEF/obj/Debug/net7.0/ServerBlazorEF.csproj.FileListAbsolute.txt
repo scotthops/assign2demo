@@ -71,3 +71,5 @@ C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\ServerBlazorEF\bin\Debu
 C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\ServerBlazorEF\bin\Debug\net7.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\ServerBlazorEF\bin\Debug\net7.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\ServerBlazorEF\bin\Debug\net7.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\ServerBlazorEF\obj\Debug\net7.0\ServerBlazorEF.sourcelink.json
+C:\Users\scott\Desktop\NOVEMBER\ServerSideBlazorSolution\ServerBlazorEF\bin\Debug\net7.0\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll
